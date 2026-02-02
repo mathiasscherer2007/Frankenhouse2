@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://bpmwmf4vurcc5"]
+
+[ext_resource type="Script" uid="uid://d4gchwhak0qdh" path="res://Scripts/player.gd" id="1_rpqav"]
+[ext_resource type="PackedScene" uid="uid://ismlby7uoq40" path="res://Scenes/Guns/weapon_manager.tscn" id="2_agccv"]
+[ext_resource type="PackedScene" uid="uid://dtpn28f1cv48n" path="res://Scenes/Composition Nodes/health.tscn" id="2_g4oe6"]
+[ext_resource type="PackedScene" uid="uid://bpk6yw1b3qmif" path="res://Scenes/Hud and Allsorts/hud.tscn" id="3_agccv"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_r150o"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_r150o"]
+
+[node name="Player" type="CharacterBody3D" groups=["Player"]]
+script = ExtResource("1_rpqav")
+
+[node name="Health" parent="." instance=ExtResource("2_g4oe6")]
+
+[node name="Body" type="MeshInstance3D" parent="."]
+layers = 512
+mesh = SubResource("CapsuleMesh_r150o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_r150o")
+
+[node name="Flashlight" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25425637, -0.48594087)
+light_color = Color(1, 1, 0.7529412, 1)
+light_energy = 0.75
+light_cull_mask = 4294967039
+spot_range = 16.0
+spot_angle = 43.639168
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.79124606, -0.3651703)
+
+[node name="WeaponManager" parent="Head" instance=ExtResource("2_agccv")]
+transform = Transform3D(0.9945219, -0.104528464, 0, 0.104528464, 0.9945219, 0, 0, 0, 1, -0.045, -0.22299999, -0.199)
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Hud" parent="CanvasLayer" instance=ExtResource("3_agccv")]
+
+[connection signal="health_updated" from="." to="CanvasLayer/Hud" method="_on_player_health_updated"]

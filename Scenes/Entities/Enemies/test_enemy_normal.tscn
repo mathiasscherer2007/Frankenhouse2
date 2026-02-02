@@ -1,0 +1,82 @@
+[gd_scene load_steps=12 format=3 uid="uid://j6k6wbuomup3"]
+
+[ext_resource type="Script" uid="uid://ca1ehhvek6c6y" path="res://Scripts/Enemies/test_enemy.gd" id="1_qdxwf"]
+[ext_resource type="Script" uid="uid://c1o323rxhns5n" path="res://Scripts/States/StateMachine.gd" id="2_vhpfl"]
+[ext_resource type="Script" uid="uid://dkf2urxwuenhn" path="res://Scripts/States/idle.gd" id="3_tqbnt"]
+[ext_resource type="Script" uid="uid://crgsi3qhkopiy" path="res://Scripts/States/chasing.gd" id="4_a6ei5"]
+[ext_resource type="PackedScene" uid="uid://dtpn28f1cv48n" path="res://Scenes/Composition Nodes/health.tscn" id="5_7btae"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h2hrk"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_j7510"]
+material = SubResource("StandardMaterial3D_h2hrk")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_qdxwf"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h2hrk"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_h2hrk"]
+radius = 4.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qdxwf"]
+size = Vector3(1, 2, 1)
+
+[node name="TestEnemy" type="CharacterBody3D" groups=["Enemies"]]
+script = ExtResource("1_qdxwf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_j7510")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(0.34115618, 0, 0, 0, 0.3653798, 0, 0, 0, 0.5382093, 0, 0.34841597, -0.37766433)
+mesh = SubResource("CylinderMesh_qdxwf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0304854, 0)
+shape = SubResource("CapsuleShape3D_h2hrk")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("2_vhpfl")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("3_tqbnt")
+
+[node name="Chasing" type="Node" parent="StateMachine"]
+script = ExtResource("4_a6ei5")
+
+[node name="SpottingAreas" type="Node3D" parent="."]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, -0.045337915, 0)
+
+[node name="Vision" type="Area3D" parent="SpottingAreas"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8921089, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SpottingAreas/Vision"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.10789108, 0)
+shape = SubResource("SphereShape3D_h2hrk")
+
+[node name="DamageAreas" type="Node3D" parent="."]
+
+[node name="Clobber" type="Area3D" parent="DamageAreas"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DamageAreas/Clobber"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -0.8)
+shape = SubResource("BoxShape3D_qdxwf")
+
+[node name="DamageCooldown" type="Timer" parent="DamageAreas"]
+one_shot = true
+
+[node name="Health" parent="." instance=ExtResource("5_7btae")]
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_desired_distance = 0.3
+path_height_offset = 0.24
+simplify_path = true
+debug_enabled = true
+
+[connection signal="body_entered" from="SpottingAreas/Vision" to="StateMachine/Idle" method="_on_spot_body_entered"]
+[connection signal="body_exited" from="SpottingAreas/Vision" to="StateMachine/Chasing" method="_on_spot_body_exited"]
+[connection signal="body_entered" from="DamageAreas/Clobber" to="StateMachine/Chasing" method="_on_clobber_body_entered"]
+[connection signal="body_exited" from="DamageAreas/Clobber" to="StateMachine/Chasing" method="_on_clobber_body_exited"]

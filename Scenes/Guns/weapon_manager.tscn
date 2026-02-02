@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://ismlby7uoq40"]
+
+[ext_resource type="Script" uid="uid://bh84v0gageqgj" path="res://Scripts/Guns/weapon_manager.gd" id="1_sxalm"]
+[ext_resource type="PackedScene" uid="uid://2lorfg8qxt6l" path="res://Scenes/Guns/testgun.tscn" id="1_xpukx"]
+
+[node name="WeaponManager" type="Node3D"]
+script = ExtResource("1_sxalm")
+
+[node name="testgun" parent="." instance=ExtResource("1_xpukx")]
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(0.9062818, 0.2103694, -0.36660329, -0.19501808, 0.977622, 0.078887455, 0.37499493, 0, 0.92702687, -0.26635525, 0.19539009, 0.08716944)
+layers = 256
+light_energy = 0.395
