@@ -42,7 +42,7 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_fd03b")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_5u8cp"]
-radius = 0.28581268
+radius = 0.3996099
 
 [node name="AmmoBox" type="Node3D"]
 top_level = true

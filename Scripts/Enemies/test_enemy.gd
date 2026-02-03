@@ -10,12 +10,12 @@ extends CharacterBody3D
 var ammo_drop = preload("res://Scenes/Guns/ammo_box.tscn")
 
 func die() -> void:
-	spawn_death_item()
+	var pos = self.global_position
+	spawn_death_item(pos)
 	self.queue_free()
 
-func spawn_death_item():
+func spawn_death_item(pos: Vector3):
 	var instance = ammo_drop.instantiate()
-	instance.global_position = global_position
-	# Temporary? fix
+	instance.global_position = pos
 	instance.position.y += 0.5
 	get_parent().add_child(instance)

@@ -26,9 +26,6 @@ material = SubResource("ShaderMaterial_xnn1v")
 
 [node name="Testscene" type="Node3D"]
 
-[node name="TestEnemy" parent="." instance=ExtResource("1_p64qg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.0534973, 0, -5.6751633)
-
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00161919, -0.0024182796, 0.0012583733)
 navigation_mesh = SubResource("NavigationMesh_jmfsm")
@@ -46,3 +43,6 @@ metadata/_editor_floor_ = Vector3(0, 1, 0)
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(10.6, 0, 0, 0, 1, 0, 0, 0, 11.04, 0, 0.2785622, 0)
 mesh = SubResource("PlaneMesh_ty54b")
+
+[node name="TestEnemy" parent="." instance=ExtResource("1_p64qg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.4585342, 0.042919636, 6.0198164)

@@ -9,7 +9,7 @@ var t_bob = 0
 @onready var head = $Head
 @onready var camera = $Head/Camera3D
 @onready var light = $Flashlight
-@onready var weaponmanager = $Head/WeaponManager
+@onready var weapon_manager = $Head/WeaponManager
 @onready var health = $Health
 
 signal health_updated(current_health)
@@ -47,8 +47,8 @@ func _physics_process(delta: float) -> void:
 	t_bob += delta * velocity.length() * float(is_on_floor())
 	var pos = Vector3.ZERO
 	pos.x = sin(t_bob * 1) * 0.01
-	pos.y = weaponmanager.position.y
-	weaponmanager.transform.origin = pos
+	pos.y = weapon_manager.position.y
+	weapon_manager.transform.origin = pos
 	
 	move_and_slide()
 

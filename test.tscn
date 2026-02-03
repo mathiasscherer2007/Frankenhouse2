@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://dvidchu718m1x"]
+
+[ext_resource type="Shader" uid="uid://cd7ytrt57rrsh" path="res://Shaders/falling_liquid.gdshader" id="1_8uh7m"]
+[ext_resource type="Texture2D" uid="uid://c4v63n7dt023m" path="res://Resources/Textures/water.png" id="2_6uqi0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ppyta"]
+render_priority = 0
+shader = ExtResource("1_8uh7m")
+shader_parameter/liquid_texture = ExtResource("2_6uqi0")
+shader_parameter/speed = 1.0
+shader_parameter/uv_scale = Vector2(1, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ykrsh"]
+material = SubResource("ShaderMaterial_ppyta")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.95000005, 0, 0, 0, 0.8178184, -0.57547647, 0, 0.57547647, 0.8178184, 0, 0, 0)
+mesh = SubResource("PlaneMesh_ykrsh")
